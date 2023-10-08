@@ -1,0 +1,38 @@
+#include <iostream>
+#include <vector>
+
+int countSetBits(int num) {
+    int count = 0;
+    while (num) {
+        num &= (num - 1);
+        count++;
+    }
+    return count;
+}
+
+std::vector<int> precalculateSetBits(int N) {
+    std::vector<int> setBits(N + 1, 0);
+    for (int i = 1; i <= N; i++) {
+        setBits[i] = setBits[i >> 1] + (i & 1);
+    }
+    return setBits;
+}
+
+int totalSetBitsInRange(int N) {
+    std::vector<int> setBits = precalculateSetBits(N);
+    int totalBits = 0;
+    for (int i = 1; i <= N; i++) {
+        totalBits += setBits[i];
+    }
+    return totalBits;
+}
+
+int main() {
+    int N;
+    std::cin >> N;
+
+    int totalBits = totalSetBitsInRange(N);
+    std::cout << totalBits << std::endl;
+
+    return 0;
+}
